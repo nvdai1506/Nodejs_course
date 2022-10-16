@@ -2,16 +2,17 @@ const path = require('path');
 
 const express = require('express');
 
-const rootDir = require('../util/rootDir.js');
 
 const router = express.Router();
 
+let listUsers = [];
 router.get('/', (req, res, next) => {
-    res.sendFile(path.join(rootDir,'views','users.html'));
+    res.render('users',{pageTitle:'Users', path:'users', users: listUsers});
 })
 router.post('/',(req, res, next)=>{
-    console.log(req.body.name);
-    res.redirect('/');
+    listUsers.push({name: req.body.name});
+    res.redirect('/users');
 })
 
-module.exports = router;
+module.exports.router = router;
+module.exports.listUsers = listUsers;
